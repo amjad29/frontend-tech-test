@@ -1,0 +1,41 @@
+.note {
+    height: 150px;
+    width: 150px;
+    background-color: yellow;
+    margin: 2px 0;
+    // position: absolute;
+    cursor: -webkit-grab;
+    -webkit-box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, .2);
+    box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, .2);
+    
+    &:hover > span {
+      opacity: 1;
+    }
+    
+    &:active {
+      cursor: -webkit-grabbing;
+    }
+    
+    &> span {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      opacity: 0;
+      transition: opacity .25s linear;
+    }
+    
+    &> textarea {
+      height: 75%;
+      background: rgba(255, 255, 255, .5);
+    }
+    
+    p {
+      font-size: 22px;
+      padding: 5px;
+      font-family: "Shadows Into Light", Arial;
+    }
+    
+    button {
+      margin: 2px;
+    }
+}

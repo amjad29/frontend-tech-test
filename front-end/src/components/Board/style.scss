@@ -1,0 +1,34 @@
+.board {
+    background-color: brown;
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    background: #eab92d;
+    background: -moz-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(57%, #eab92d), color-stop(99%, #c79810));
+    background: -webkit-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
+    background: -o-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
+    background: -ms-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
+    background: radial-gradient(ellipse at center, #eab92d 57%, #c79810 99%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1);
+    
+    button {
+        color: #fff;
+        font-size: 14px;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
+        position:absolute;
+    } 
+    
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      
+      .flex-container > div {
+       
+        // width: 100px;
+        margin: 10px;
+
+      }
+  
+  }
