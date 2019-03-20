@@ -78,7 +78,7 @@ class Board extends Component {
     render() {
         return (
             <div className="board" >
-                <div class="flex-container" onDrop={this.drop} onDragOver={this.allowDrop}>
+                <div className="flex-container" onDrop={this.drop} onDragOver={this.allowDrop}>
 
                     {this.state.notes.map(this.eachNote)}
                     <button id="add" onClick={this.add.bind(null, "New Note")}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+ import './foundation.min.css';
 import Board from './components/Board/Board';
 import * as serviceWorker from './serviceWorker';
 

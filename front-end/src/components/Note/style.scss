@@ -3,7 +3,7 @@
     width: 150px;
     background-color: yellow;
     margin: 2px 0;
-    // position: absolute;
+    overflow: hidden;
     cursor: -webkit-grab;
     -webkit-box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, .2);
     box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, .2);
@@ -38,9 +38,26 @@
     button {
       margin: 2px;
     }
+    
+    .edit-note {
+      background-color: #5cb85c;
+    }
+    
+
+   
+   
 }
 
-
+.styles_modal__gNwvD {
+  background-color: yellow;
+  height: 80%;
+  width: 80%;
+  
+  textarea {
+    margin-top: 35px;
+    background-color: yellow;
+  }
+}
 
 #add {
   background-color: #5cb85c;

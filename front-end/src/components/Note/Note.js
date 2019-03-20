@@ -16,7 +16,7 @@ class Note extends Component {
         this.save = this.save.bind(this)
         this.renderForm = this.renderForm.bind(this)
         this.renderDisplay = this.renderDisplay.bind(this)
-        // this.randomBetween = this.randomBetween.bind(this)
+        this.randomBetween = this.randomBetween.bind(this)
     }
 
     onOpenModal = () => {
@@ -48,7 +48,7 @@ class Note extends Component {
     remove() {
         this.props.onRemove(this.props.index)
     }
-    
+
     drag(ev) {
         ev.dataTransfer.setData("text", ev.target.id);
         console.log(' ev.dataTransfer==>', ev.dataTransfer)
@@ -59,7 +59,8 @@ class Note extends Component {
         e.preventDefault()
         this.props.onChange(this._newText.value, this.props.index)
         this.setState({
-            editing: false
+            editing: false,
+            open: false
         })
     }
 
@@ -78,21 +79,22 @@ class Note extends Component {
 
     renderDisplay() {
         const { open } = this.state;
-        console.log('props==>',this.props)
-        console.log('props.key==>',this.props.index)
         return (
-            <div className="note" draggable="true" id={this.props.index}  onDragStart={this.drag} style={this.style}>
+            <div className="note" draggable="true" id={this.props.index} onDragStart={this.drag} style={this.style}>
                 <p>{this.props.children}</p>
                 <span>
                     {/* <button onClick={this.edit} id="edit">edit</button> */}
                     <button onClick={this.onOpenModal} id="edit">edit</button>
                     <button onClick={this.remove} id="remove">delete</button>
                 </span>
-                <Modal open={open} onClose={this.onCloseModal} center>
-                    <form onSubmit={this.save}>
-                        <textarea ref={input => this._newText = input}
-                            defaultValue={this.props.children} />
-                        <button id="save">save</button>
+                <Modal open={open} onClose={this.onCloseModal} center >
+                    <form onSubmit={this.save} className="edit-note" >
+                        <div className="grid-x  align-center">
+                            <textarea rows="10" ref={input => this._newText = input} className=""
+                                defaultValue={this.props.children} />
+                            <button id="save">save</button>
+                        </div>
+
                     </form>
                 </Modal>
             </div>
