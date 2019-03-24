@@ -1,30 +1,28 @@
 import React, { Component } from 'react'
-import Modal from 'react-responsive-modal';
+import NoteDetailForm from '../NoteDetailForm/NoteDetailForm'
+import PropTypes from 'prop-types';
 import './style.scss';
 
 class Note extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            editing: false,
-            open: false
+            openModal: false
         }
 
-        this.edit = this.edit.bind(this)
-        this.drag = this.drag.bind(this)
         this.remove = this.remove.bind(this)
-        this.save = this.save.bind(this)
-        this.renderForm = this.renderForm.bind(this)
+        this.saveNote = this.saveNote.bind(this)
         this.renderDisplay = this.renderDisplay.bind(this)
-        this.randomBetween = this.randomBetween.bind(this)
+
     }
 
+
     onOpenModal = () => {
-        this.setState({ open: true });
+        this.setState({ openModal: true });
     };
 
     onCloseModal = () => {
-        this.setState({ open: false });
+        this.setState({ openModal: false });
     };
 
     randomBetween(x, y, s) {
@@ -39,11 +37,6 @@ class Note extends Component {
         }
     }
 
-    edit() {
-        this.setState({
-            editing: true
-        })
-    }
 
     remove() {
         this.props.onRemove(this.props.index)
@@ -51,59 +44,49 @@ class Note extends Component {
 
     drag(ev) {
         ev.dataTransfer.setData("text", ev.target.id);
-        console.log(' ev.dataTransfer==>', ev.dataTransfer)
-        console.log(' ev.target.id==>', ev.target.id)
     }
 
-    save(e) {
-        e.preventDefault()
-        this.props.onChange(this._newText.value, this.props.index)
+    saveNote(noteDate) {
+        const updatedNote = {
+            id: this.props.index,
+            ...noteDate
+        };
+
+        this.props.onChange(updatedNote);
+
         this.setState({
-            editing: false,
-            open: false
-        })
+            openModal: false
+        });
     }
 
 
-    renderForm() {
-        return (
-            <div className="note" style={this.style}>
-                <form onSubmit={this.save}>
-                    <textarea ref={input => this._newText = input}
-                        defaultValue={this.props.children} />
-                    <button id="save">save</button>
-                </form>
-            </div>
-        )
-    }
 
     renderDisplay() {
-        const { open } = this.state;
+
         return (
-            <div className="note" draggable="true" id={this.props.index} onDragStart={this.drag} style={this.style}>
-                <p>{this.props.children}</p>
-                <span>
-                    {/* <button onClick={this.edit} id="edit">edit</button> */}
+            <div className="note" draggable="true" id={this.props.index} onDragStart={this.drag} style={this.style} data-test="Note">
+                <p>{this.props.noteData.title}</p>
+                <span>{this.props.noteData.description}</span>
+                <span className='hidden'>
                     <button onClick={this.onOpenModal} id="edit">edit</button>
                     <button onClick={this.remove} id="remove">delete</button>
                 </span>
-                <Modal open={open} onClose={this.onCloseModal} center >
-                    <form onSubmit={this.save} className="edit-note" >
-                        <div className="grid-x  align-center">
-                            <textarea rows="10" ref={input => this._newText = input} className=""
-                                defaultValue={this.props.children} />
-                            <button id="save">save</button>
-                        </div>
 
-                    </form>
-                </Modal>
+                <NoteDetailForm onChange={this.add} openModal={this.state.openModal} closeModal={this.onCloseModal} saveNote={this.saveNote} noteData={this.props.noteData} />
             </div>
         )
     }
 
     render() {
-        return this.state.editing ? this.renderForm() : this.renderDisplay()
+        return this.renderDisplay()
     }
+}
+
+Note.propTypes = {
+    index: PropTypes.number,
+    noteData: PropTypes.object,
+    onRemove: PropTypes.func,
+    onChange: PropTypes.func
 }
 
 export default Note

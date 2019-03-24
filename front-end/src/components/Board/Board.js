@@ -1,65 +1,65 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import './style.scss';
 import Note from '../Note/Note'
+import NoteDetailForm from '../NoteDetailForm/NoteDetailForm'
+import PropTypes from 'prop-types';
 // import FaPlus from 'react-icons/lib/fa/plus'
+
+import * as actions from '../../store/actions/index';
 
 class Board extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            notes: []
+            openModal: false
         }
-        this.add = this.add.bind(this)
-        this.drop = this.drop.bind(this)
+
+        this.saveNote = this.saveNote.bind(this)
+        this.onOpenModal = this.onOpenModal.bind(this)
         this.allowDrop = this.allowDrop.bind(this)
         this.eachNote = this.eachNote.bind(this)
         this.update = this.update.bind(this)
         this.remove = this.remove.bind(this)
-        this.nextId = this.nextId.bind(this)
+        this.onCloseModal = this.onCloseModal.bind(this)
+
     }
 
-    add(text) {
-        this.setState(prevState => ({
-            notes: [
-                ...prevState.notes,
-                {
-                    id: this.nextId(),
-                    note: text
-                }
-            ]
-        }))
+    componentDidMount() {
+        this.props.fetchNotes()
     }
 
-    nextId() {
-        this.uniqueId = this.uniqueId || 0
-        return this.uniqueId++
+    saveNote(noteData) {
+        this.props.createNote(noteData);
+        this.setState({
+            openModal: false
+        })
     }
 
-    update(newText, i) {
-        console.log('updating item at index', i, newText)
-        this.setState(prevState => ({
-            notes: prevState.notes.map(
-                note => (note.id !== i) ? note : { ...note, note: newText }
-            )
-        }))
+    onOpenModal() {
+        this.setState({ openModal: true });
+    };
+
+    onCloseModal() {
+        this.setState({ openModal: false });
+    };
+
+    update(noteData) {
+        this.props.updateNote(noteData);
     }
 
     remove(id) {
-      
-        this.setState(prevState => ({
-            notes: prevState.notes.filter(note => note.id !== id)
-        }))
+        this.props.removeNote(id)
     }
 
     eachNote(note, i) {
-        console.log('note==>',note)
         return (
-        
             <Note key={note.id}
                 index={note.id}
                 onChange={this.update}
-                onRemove={this.remove}>
-                {note.note}
+                onRemove={this.remove}
+                noteData={note}>
+
             </Note>
         )
     }
@@ -77,18 +77,43 @@ class Board extends Component {
 
     render() {
         return (
-            <div className="board" >
-                <div className="flex-container" onDrop={this.drop} onDragOver={this.allowDrop}>
+            <div className="board" data-test="Board">
+                <div className="flex-container" onDrop={this.drop} onDragOver={this.allowDrop} >
 
-                    {this.state.notes.map(this.eachNote)}
-                    <button id="add" onClick={this.add.bind(null, "New Note")}>
-                        add
-				</button>
+                    {this.props.notes.map(this.eachNote)}
+                    <button id="add" onClick={this.onOpenModal}>  add </button>
+
                 </div>
+
+                <NoteDetailForm onChange={this.add} openModal={this.state.openModal} closeModal={this.onCloseModal} saveNote={this.saveNote} />
 
             </div>
         )
     }
 }
 
-export default Board
+const mapStateToProps = state => {
+    return {
+        notes: state.noteBuilder.notes,
+
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        removeNote: (id) => dispatch(actions.removeNote(id)),
+        updateNote: ({ id, title, description }) => dispatch(actions.updateNote({ id, title, description })),
+        createNote: ({ title, description }) => dispatch(actions.createNote({ title, description })),
+        fetchNotes: () => dispatch(actions.fetchNotes())
+    }
+}
+
+Board.propTypes = {
+    notes: PropTypes.array,
+    updateNote: PropTypes.func,
+    removeNote: PropTypes.func,
+    createNote: PropTypes.func,
+    fetchNotes: PropTypes.func
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board)

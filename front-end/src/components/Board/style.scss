@@ -11,24 +11,23 @@
     background: -ms-radial-gradient(center, ellipse cover, #eab92d 57%, #c79810 99%);
     background: radial-gradient(ellipse at center, #eab92d 57%, #c79810 99%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eab92d', endColorstr='#c79810', GradientType=1);
-    
     button {
         color: #fff;
         font-size: 14px;
-        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
-        // position:absolute;
-    } 
-    
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55); // position:absolute;
+    }
     .flex-container {
         display: flex;
         flex-wrap: wrap;
-      }
-      
-      .flex-container > div {
-       
+    }
+    .flex-container>div {
         // width: 100px;
         margin: 10px;
+    }
 
-      }
-  
-  }
+}
+
+.titleInput {
+    width: 100%;
+    margin-top: 25px;
+}

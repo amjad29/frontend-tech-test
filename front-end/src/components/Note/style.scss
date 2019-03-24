@@ -8,7 +8,7 @@
     -webkit-box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, .2);
     box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, .2);
     
-    &:hover > span {
+    &:hover > .hidden {
       opacity: 1;
     }
     
@@ -16,7 +16,7 @@
       cursor: -webkit-grabbing;
     }
     
-    &> span {
+    &> .hidden {
       position: absolute;
       bottom: 2px;
       right: 2px;
